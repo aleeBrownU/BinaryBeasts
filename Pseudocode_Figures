@@ -1,1 +1,6 @@
+%Code for displaying figures for our ISI data
 
+x_axis = GABA conductance
+y_axis = frequency of the circuit for the given x value
+
+Will attach a line of best fit

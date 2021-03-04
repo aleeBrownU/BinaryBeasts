@@ -9,10 +9,12 @@ Use a for loop for the pyrmidal cells:
   Define the current cell --> so we know what cell we're on
   Find each spike for the given cell 
   Calculate ISI
+  Assign the ISI to "mean matrix" that we'll use later to average the all of the ISI's of all the cells
  
 Use a for loop for the basket cells:
   Define the current cell --> so we know what cell we're on
   Find each spike for the given cell 
   Calculate ISI
+  Assign the ISI to "mean matrix" that we'll use later to average the all of the ISI's of all the cell
   
 Calculate mean ISI for basket cells and for the pyrmidal cells

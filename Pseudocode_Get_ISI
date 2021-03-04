@@ -1,0 +1,24 @@
+% Basket cells = inhibitory cells
+% Pyramidal cells = excitatory cells
+
+Define array that will go through all 12 datasets (ex. data_set = 1:12)
+
+Retrieve input file (files 1 through 12) and run through rest of the code for each file
+
+
+Create array for each pyrmidal cell's ID (170 to 269)
+Create array for each basket cells's ID (135 TO 169)
+
+Use a for loop for the pyrmidal cells:
+  Define the current cell --> so we know what cell we're on
+  Find each spike for the given cell 
+  Calculate ISI
+  Assign the ISI to "mean matrix" that we'll use later to average the all of the ISI's of all the cells
+ 
+Use a for loop for the basket cells:
+  Define the current cell --> so we know what cell we're on
+  Find each spike for the given cell 
+  Calculate ISI
+  Assign the ISI to "mean matrix" that we'll use later to average the all of the ISI's of all the cell
+  
+Calculate mean ISI for basket cells and for the pyrmidal cells from the vector=1/frequency

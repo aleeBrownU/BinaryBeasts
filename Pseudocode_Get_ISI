@@ -17,4 +17,4 @@ Use a for loop for the basket cells:
   Calculate ISI
   Assign the ISI to "mean matrix" that we'll use later to average the all of the ISI's of all the cell
   
-Calculate mean ISI for basket cells and for the pyrmidal cells
+Calculate mean ISI for basket cells and for the pyrmidal cells from the vector=1/frequency

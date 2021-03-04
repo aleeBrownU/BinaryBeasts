@@ -1,2 +1,14 @@
 Create array for each pyrmidal cell's ID (170 to 269)
 Create array for each basket cells's ID (135 TO 169)
+
+Use a for loop for the pyrmidal cells:
+  Define the current cell --> so we know what cell we're on
+  Find each spike for the given cell 
+  Calculate ISI
+ 
+Use a for loop for the basket cells:
+  Define the current cell --> so we know what cell we're on
+  Find each spike for the given cell 
+  Calculate ISI
+  
+Calculate mean ISI for basket cells and for the pyrmidal cells

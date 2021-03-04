@@ -17,7 +17,7 @@ isis_spk = []; % column vector for storing the ISI value for each cell to be ave
 cell_spikes = cell(length(cell_id),1); % matrix of cells where each item contains the list of spikes for a given cell
 for idx=1:length(cell_id)
     current_id = cell_id(idx); % the current ID
-    sel = spike_file(:,2)=current_id; % select indicies within spike_file that correspond to the current ID
+    sel = spike_file(:,2)==current_id; % select indicies within spike_file that correspond to the current ID
     current_times = spike_file(sel,1); % select the times of all spikes that correspond to the current ID
     curr_isis = diff(current_times); % calculate isi values
     

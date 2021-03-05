@@ -1,0 +1,8 @@
+Ask user for the number of cell IDs per sample
+  Generate a vector of randomized distribution of Cell IDs
+    Compute the ISI for the given cell IDs
+  Calculate mean and standard deviation for the given sample
+  
+Repeat above for number given by user to give simulated distribution (bootstrapping)
+
+Perform statistical tests for comparison between the simulated distributions of each Gamma

@@ -4,6 +4,24 @@ close all;
 cell_id = 135:269; % all of the cell ID numbers
 isi_avg = []; %to put all of the ISI averages per file
 isi_std = [];
+boot_freq = [];
+
+%bins, bootstrap sample number and size
+b_input = 0; s_input = 0; p_input = 0;
+while b_input == 0 || s_input ==0 || p_input == 0
+bin = input('How wide do you want the histrogram and Raster plot bins to be? (1-550) \n');
+if bin >=1 && bin <=550
+    b_input = 1;
+end
+samples = input('How many samples do you want for the boostrap? (>1)\n');
+if samples >=1
+    s_input = 1;
+end
+pop = input('How big do you want the bootstrap samples to be? (<67)\n');
+if pop >=1 && bin <=67
+    p_input = 1;
+end
+end
 
 for input_file_number = 2:12 %Need to run code for each file. This for loop runs the file for 10 times
     number_str = num2str(input_file_number);
@@ -33,13 +51,9 @@ for input_file_number = 2:12 %Need to run code for each file. This for loop runs
     end
     
     isi_avg = [isi_avg, mean(isis_spk)];  %compiles all of the mean ISIs
-    
-    isi_std = [isi_std, std(isis_spk)];
-    
-    
-    
-    for num_samples = 1:20 
-        rand_id = randi([135 269],1,1000);
+
+    for num_samples = 1:samples 
+        rand_id = randi([135 269],1,pop);
         for idx=1:length(cell_id)
             current_id = cell_id(idx); % the current ID
             sel = spike_file(:,2)==current_id; % select indicies within spike_file that correspond to the current ID
@@ -51,13 +65,10 @@ for input_file_number = 2:12 %Need to run code for each file. This for loop runs
             end
         end
         sample_isi_avg = [sample_isi_avg, mean(isi_rand)]; %compiles all of the mean ISIs for the random sample
-        sample_isi_std = [sample_isi_std, std(isi_rand)]; %compiles all of the standard deviations
-        sample_isi_stderr = std(sample_isi_avg)/sqrt(length(cell_id));
-    
     end
+    boot_freq = [boot_freq, mean(sample_isi_avg)];
     
     %start of raster plot
-bin = 10;
 raster = ones(134, 550);
 histo = [];
 for row_cell = 1:134 
@@ -74,7 +85,7 @@ for row_cell = 1:134
         
     end
 end
-
+%{
 figure(1)
 subplot(1,11,input_file_number-1);
 imagesc(raster)
@@ -91,9 +102,11 @@ histogram(histo,'BinWidth',bin);
 title(strcat('GABA ',number_str,'10^-2 uS Histogram'));
 xlabel('Time(ms)')
 ylabel('Number of Cells Spiking')
-
+%}
 end
 data_pop = [2:12 ; isi_avg]';
+boot_pop = [2:12 ; boot_freq]';
+
 
 
 
@@ -105,6 +118,16 @@ gamma_number = data_pop(:,1);
 plot_avg_isi = data_pop(:,2);
 plot(fitlm(data_pop(:,1),data_pop(:,2)));
 title('Plot of Different Gammas and Average ISI');
+xlabel('GABAa Conductance (x10^-2 uS)')
+ylabel('Frequency of the Neural Circuit (Hz)')
+
+figure(4)
+scatter(boot_pop(:,1),boot_pop(:,2));
+hold on
+gamma_number = boot_pop(:,1);
+plot_avg_isi = boot_pop(:,2);
+plot(fitlm(boot_pop(:,1),boot_pop(:,2)));
+title('Plot of Different Gammas and Average ISI using Bootstrapping Data');
 xlabel('GABAa Conductance (x10^-2 uS)')
 ylabel('Frequency of the Neural Circuit (Hz)')
 

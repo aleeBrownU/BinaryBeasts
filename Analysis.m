@@ -38,7 +38,7 @@ for input_file_number = 2:12 %Need to run code for each file. This for loop runs
     
     
     
-    for num_samples = 1:20
+    for num_samples = 1:20 
         rand_id = randi([135 269],1,1000);
         for idx=1:length(cell_id)
             current_id = cell_id(idx); % the current ID
@@ -52,7 +52,7 @@ for input_file_number = 2:12 %Need to run code for each file. This for loop runs
         end
         sample_isi_avg = [sample_isi_avg, mean(isi_rand)]; %compiles all of the mean ISIs for the random sample
         sample_isi_std = [sample_isi_std, std(isi_rand)]; %compiles all of the standard deviations
-       
+        sample_isi_stderr = std(sample_isi_avg)/sqrt(length(cell_id));
     
     end
     

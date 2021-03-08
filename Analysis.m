@@ -4,6 +4,13 @@ close all;
 cell_id = 135:269; % all of the cell ID numbers
 isi_avg = []; %to put all of the ISI averages per file
 isi_std = [];
+%{
+figure(1,'units','normalized','outerposition',[0 0 1 1])
+colormap gray
+axis on
+
+figure(2,'units','normalized','outerposition',[0 0 1 1])
+%}
 
 for input_file_number = 2:12 %Need to run code for each file. This for loop runs the file for 10 times
     number_str = num2str(input_file_number);
@@ -25,7 +32,7 @@ for input_file_number = 2:12 %Need to run code for each file. This for loop runs
         current_id = cell_id(idx); % the current ID
         sel = spike_file(:,2)==current_id; % select indicies within spike_file that correspond to the current ID
         current_times = spike_file(sel,1); % select the times of all spikes that correspond to the current ID
-        curr_isi = diff(current_times); % calculate isi values
+        curr_isi = 1./diff(current_times./1000); % calculate isi values
         
         isis_spk = [isis_spk;curr_isi]; %appends to isis_spk the recently calculated isi
         
@@ -44,7 +51,7 @@ for input_file_number = 2:12 %Need to run code for each file. This for loop runs
             current_id = cell_id(idx); % the current ID
             sel = spike_file(:,2)==current_id; % select indicies within spike_file that correspond to the current ID
             current_times = spike_file(sel,1); % select the times of all spikes that correspond to the current ID
-            curr_isi = diff(current_times); % calculate isi values
+            curr_isi = 1./diff(current_times./1000); % calculate isi values
             
             if any(rand_id(:) == current_id) %asks if any of the random sample ID's
                 isi_rand = [isi_rand, curr_isi'];
@@ -56,11 +63,7 @@ for input_file_number = 2:12 %Need to run code for each file. This for loop runs
     
     end
     
-    
-end
-data_pop = [2:12 ; isi_avg]';
-
-%start of raster plot
+    %start of raster plot
 bin = 10;
 raster = ones(134, 550);
 histo = [];
@@ -78,27 +81,40 @@ for row_cell = 1:134
         
     end
 end
-disp(histo);
-histogram(histo,'BinWidth',bin);
 
-
-figure
+figure(1)
+subplot(1,11,input_file_number-1);
 imagesc(raster)
+title(strcat('GABA ',number_str,'10^-2 uS Raster Plot'));
+xlabel('Time (ms)')
+ylabel('Cell ID')
+
 colormap gray
 axis on
 
+figure(2)
+subplot(1,11,input_file_number-1);
+histogram(histo,'BinWidth',bin);
+title(strcat('GABA ',number_str,'10^-2 uS Histogram'));
+xlabel('Time(ms)')
+ylabel('Number of Cells Spiking')
+
+end
+data_pop = [2:12 ; isi_avg]';
 
 
 
-%{
-figure
+
+figure(3)
 scatter(data_pop(:,1),data_pop(:,2));
 hold on
 gamma_number = data_pop(:,1);
 plot_avg_isi = data_pop(:,2);
 plot(fitlm(data_pop(:,1),data_pop(:,2)));
 title('Plot of Different Gammas and Average ISI');
-%}
+xlabel('GABAa Conductance (x10^-2 uS)')
+ylabel('Frequency of the Neural Circuit (Hz)')
+
 
 %{
 disp('isi avg');

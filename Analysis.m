@@ -4,13 +4,6 @@ close all;
 cell_id = 135:269; % all of the cell ID numbers
 isi_avg = []; %to put all of the ISI averages per file
 isi_std = [];
-%{
-figure(1,'units','normalized','outerposition',[0 0 1 1])
-colormap gray
-axis on
-
-figure(2,'units','normalized','outerposition',[0 0 1 1])
-%}
 
 for input_file_number = 2:12 %Need to run code for each file. This for loop runs the file for 10 times
     number_str = num2str(input_file_number);

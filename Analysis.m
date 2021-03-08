@@ -60,7 +60,37 @@ for input_file_number = 2:12 %Need to run code for each file. This for loop runs
 end
 data_pop = [2:12 ; isi_avg]';
 
+%start of raster plot
+bin = 10;
+raster = ones(134, 550);
+histo = [];
+for row_cell = 1:134 
+    neuron_id = 134+row_cell;
+    for column_time = 1:bin:550
+        time_sel = (spike_file(:,1) > column_time) & (spike_file(:,1) < column_time+bin);
+        unit_id = spike_file(time_sel,2);
+        x = spike_file(time_sel,1);
+        
+        if any(unit_id(:) == neuron_id)
+            raster(row_cell,column_time:column_time+bin) = 0;
+            histo=[histo, column_time];
+        end
+        
+    end
+end
+disp(histo);
+histogram(histo,'BinWidth',bin);
 
+
+figure
+imagesc(raster)
+colormap gray
+axis on
+
+
+
+
+%{
 figure
 scatter(data_pop(:,1),data_pop(:,2));
 hold on
@@ -68,9 +98,9 @@ gamma_number = data_pop(:,1);
 plot_avg_isi = data_pop(:,2);
 plot(fitlm(data_pop(:,1),data_pop(:,2)));
 title('Plot of Different Gammas and Average ISI');
+%}
 
-
-
+%{
 disp('isi avg');
 disp(isi_avg);
 disp('isi std');
@@ -79,4 +109,4 @@ disp('sample isi avg');
 disp(sample_isi_avg);
 disp('sample isi std');
 disp(mean(sample_isi_std));
-
+%}
